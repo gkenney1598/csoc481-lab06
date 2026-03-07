@@ -96,13 +96,15 @@ class Jump():
         self.velocity_y = (2 * (WINDOW_HEIGHT - height)) / self.time
 
     def calculate_gravity_t(self, height):
-        self.gravity = - (2 * (WINDOW_HEIGHT - height)) / (self.time ** 2)
-
-    def calculate_gravity_yx(self, pos):
-        self.gravity = - 2 * (WINDOW_HEIGHT - pos.y) * ( self.speed ** 2) / (pos.x - self.pos.x) ** 2
+        self.gravity = -(2 * (WINDOW_HEIGHT - height)) / (self.time ** 2)
 
     def calculate_velocity_x(self, pos):
-        self.velocity = 2 * (WINDOW_HEIGHT - pos.y) * (self.speed) / abs(pos.x - self.pos.x)
+        #is 12 because the texture is 6 frames long and need to find the x position in the middle of one of them
+        self.velocity_y = 2 * (WINDOW_HEIGHT - pos.y) * (self.speed) / abs(pos.x - (self.pos.x + self.texture.width/12))
+
+    def calculate_gravity_yx(self, pos):
+        self.gravity = -2 * (WINDOW_HEIGHT - pos.y) * ( self.speed ** 2) / (pos.x - (self.pos.x + self.texture.width/12)) ** 2
+
 
 class Game():
     def __init__(self):
@@ -123,4 +125,3 @@ class Game():
 
     def shutdown(self):
         self.jump.shutdown()
-
