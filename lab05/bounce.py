@@ -9,43 +9,20 @@ class Jump():
     def __init__(self):
         self.pos = Vector2(200, GROUND)
         self.speed = 200 # 200 pixels/sec
-        self.grounded = True # would jump
         self.frame_rec = Rectangle(0.0, 0.0, float(SCARF_WIDTH)/6, float(SCARF_HEIGHT))
-        self.velocity_y = 0.0 
-        self.gravity = 0.0
-        self.friction = 1.01
-        self.calibrate_time = True
-        self.calibrate_x = False
-        self.time = 0.5
 
     def startup(self):
-        # be careful path: how you run?>
         self.texture = load_texture(str(THIS_DIR/"resources/scarfy.png"))
 
     def update(self):
         motion = Vector2(0, 0)
 
-        draw_text(str(self.gravity), 20, 50, 20, BLACK)
-        draw_text(str(self.velocity_y), 20, 80, 20, BLACK)
-
         if is_key_down(KeyboardKey.KEY_RIGHT):
             motion.x += 1
         if is_key_down(KeyboardKey.KEY_LEFT):
             motion.x += -1 
-        
-        if not self.grounded:
-            self.velocity_y += self.gravity * get_frame_time()
-            self.pos.y -= self.velocity_y * get_frame_time()
-        
-        if self.pos.y >= GROUND:
-            self.pos.y = GROUND
-            self.grounded = True
-            self.velocity_y = 0.0
-        else:
-            self.grounded = False
 
-        motion_this_frame = vector2_scale(motion, get_frame_time() * self.speed)
-    
+        motion_this_frame = vector2_scale(motion, get_frame_time() * self.speed) 
         self.pos = vector2_add(self.pos, motion_this_frame)
 
    
@@ -57,7 +34,6 @@ class Jump():
 
 
 class Ball():
-
     def __init__(self):
         self.position = Vector2(WINDOW_WIDTH * 7/8, 100)
         self.radius = 10
